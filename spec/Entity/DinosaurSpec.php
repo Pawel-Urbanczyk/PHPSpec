@@ -90,4 +90,12 @@ class DinosaurSpec extends ObjectBehavior
     {
         $this->shouldHaveSameDietAs(new Dinosaur());
     }
+
+    function it_should_allow_to_check_if_two_dinosaurs_have_same_diet_using_stub(Dinosaur $dinosaur)
+    {
+        //Mock, and "stub" is a fake value of object
+        $dinosaur->isCarnivorous()->willReturn(false);
+
+        $this->shouldHaveSameDietAs($dinosaur);
+    }
 }
