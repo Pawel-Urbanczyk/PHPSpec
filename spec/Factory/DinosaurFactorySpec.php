@@ -4,6 +4,7 @@ namespace spec\App\Factory;
 
 use App\Entity\Dinosaur;
 use App\Factory\DinosaurFactory;
+use PhpSpec\Exception\Example\SkippingException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -23,5 +24,19 @@ class DinosaurFactorySpec extends ObjectBehavior
         $dinosaur->getGenus()->shouldBe('Velociraptor');
         $dinosaur->getLength()->shouldBe(5);
 
+    }
+
+    function it_grows_a_triceratops()
+    {
+
+    }
+
+    function it_grows_a_small_velociraptor()
+    {
+        if(!class_exists('Nanny')){
+           throw new SkippingException('Someone needs to look over dino puppies');
+        }
+
+        return $this->growVclociraptor(1)->shouldBeInstanceOf(Dinosaur::class);
     }
 }

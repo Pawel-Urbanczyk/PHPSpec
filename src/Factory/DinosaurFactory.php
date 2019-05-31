@@ -3,7 +3,6 @@
 namespace App\Factory;
 
 use App\Entity\Dinosaur;
-use integration\PhpSpec\Loader\examples\ExampleSpec;
 
 class DinosaurFactory
 {
