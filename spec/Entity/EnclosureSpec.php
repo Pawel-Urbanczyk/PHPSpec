@@ -4,6 +4,7 @@ namespace spec\App\Entity;
 
 use App\Entity\Dinosaur;
 use App\Entity\Enclosure;
+use App\Exception\DinosaursAreRunningRampantException;
 use App\Exception\NotABuffetException;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
@@ -22,6 +23,7 @@ class EnclosureSpec extends ObjectBehavior
 
     function it_should_be_able_to_add_dinosaurs()
     {
+        $this->beConstructedWith(true);
         $this->addDinosaur(new Dinosaur());
         $this->addDinosaur(new Dinosaur());
 
@@ -30,8 +32,25 @@ class EnclosureSpec extends ObjectBehavior
 
     function it_should_not_allow_to_add_carnivorous_dinosaurs_to_non_carnivorous_enclosure()
     {
+        $this->beConstructedWith(true);
         $this->addDinosaur(new Dinosaur('veggie-eater', false));
 
         $this->shouldThrow(NotABuffetException::class)->during('addDinosaur',[new Dinosaur('Velociraptor', true)]);
+    }
+
+    function it_should_not_allow_to_add_dinosaurs_to_unsecure_enclosures()
+    {
+        $this->beConstructedWith(false);
+        $this
+            ->shouldThrow(new DinosaursAreRunningRampantException('Are You Craaazy?!?'))
+            ->duringAddDinosaur(new Dinosaur('Velociraptor', true));
+    }
+
+    function it_should_fail_if_providing_initial_dinosaurs_without_security()
+    {
+        $this->beConstructedWith(false,[new Dinosaur()]);
+
+        $this->shouldThrow(DinosaursAreRunningRampantException::class)
+            ->duringInstantiation();
     }
 }
