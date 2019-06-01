@@ -6,6 +6,11 @@ use App\Entity\Dinosaur;
 
 class DinosaurFactory
 {
+    public function __construct()
+    {
+
+    }
+
     public function growVelociraptor(int $length): Dinosaur
     {
         return $this->createDinosaur('Velociraptor', true, $length);
